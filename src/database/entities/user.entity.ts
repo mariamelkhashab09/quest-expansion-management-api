@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Index, OneToOne } from 'typeorm';
 import { Role } from './role.entity';
+import { Client } from './client.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity('users')
@@ -21,6 +22,9 @@ export class User {
   @ManyToOne(() => Role, (role) => role.users, { eager: true })
   @JoinColumn({ name: 'role_id' })
   role: Role;
+
+  @OneToOne(() => Client, (client) => client.user)
+  client: Client;
 
   @Column({ type: 'boolean', default: true })
   isActive: boolean;
