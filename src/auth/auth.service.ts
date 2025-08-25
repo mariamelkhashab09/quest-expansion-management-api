@@ -1,9 +1,9 @@
 import { Injectable, UnauthorizedException, ConflictException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { User, Role } from '../database/entities'
+import { User, Role, Client } from '../database/entities';
 import { RegisterDto, LoginDto } from './dto';
 import { JwtPayload } from './interfaces';
 import { saltRounds } from '../config/constants';
@@ -16,11 +16,12 @@ export class AuthService {
     private userRepository: Repository<User>,
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    private dataSource: DataSource,
     private jwtService: JwtService,
   ) {}
 
-  async register(registerDto: RegisterDto): Promise<User> {
-    const { email, password, roleId } = registerDto;
+  async register(registerDto: RegisterDto): Promise<{ user: User; client?: Client }> {
+    const { email, password, roleId, companyName, contactEmail } = registerDto;
 
     // Check if user already exists
     const existingUser = await this.userRepository.findOne({
@@ -43,17 +44,32 @@ export class AuthService {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Create user
-    const user = this.userRepository.create({
-      email,
-      password: hashedPassword,
-      roleId,
-      isActive: true,
+    // Use transaction to ensure atomicity
+    return await this.dataSource.transaction(async (manager) => {
+      // Create user within transaction
+      const user = manager.create(User, {
+        email,
+        password: hashedPassword,
+        roleId,
+        isActive: true,
+      });
+
+      const savedUser = await manager.save(User, user);
+
+      // If user is registering as a client role, create client profile
+      let savedClient: Client | undefined;
+      if (role.name === 'client') {
+        const client = manager.create(Client, {
+          userId: savedUser.id,
+          companyName: companyName || '',
+          contactEmail: contactEmail || '',
+        });
+
+        savedClient = await manager.save(Client, client);
+      }
+
+      return { user: savedUser, client: savedClient };
     });
-
-    const savedUser = await this.userRepository.save(user);
-
-    return savedUser;
   }
 
   async login(loginDto: LoginDto): Promise<string> {
@@ -106,6 +122,5 @@ export class AuthService {
 
     return user;
   }
-
 
 }

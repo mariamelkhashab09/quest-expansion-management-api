@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto, LoginDto } from './dto';
 import { Public, CurrentUser, Roles } from './decorators';
 import { RolesGuard } from './guards';
-import { User } from '../database/entities/user.entity';
+import { User, Client } from '../database/entities';
 
 @Controller('auth')
 export class AuthController {
@@ -11,7 +11,7 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  async register(@Body() registerDto: RegisterDto): Promise<User> {
+  async register(@Body() registerDto: RegisterDto): Promise<{ user: User; client?: Client }> {
     return this.authService.register(registerDto);
   }
 
@@ -22,4 +22,5 @@ export class AuthController {
     const token = await this.authService.login(loginDto);
     return { accessToken: token };
   }
+
 }

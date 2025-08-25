@@ -47,9 +47,9 @@ import configuration from './config/configuration';
                  inject: [ConfigService],
          }),
 
-         // Auth Module
-         AuthModule,
-       ],
+             // Auth Module
+    AuthModule,
+  ],
        controllers: [AppController],
        providers: [
          AppService,
