@@ -9,6 +9,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { entities } from './database/entities';
 import { AuthModule, JwtGuard } from './auth';
+import { ProjectsModule } from './projects/projects.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -49,6 +50,9 @@ import configuration from './config/configuration';
 
              // Auth Module
     AuthModule,
+
+    // Projects Module
+    ProjectsModule,
   ],
        controllers: [AppController],
        providers: [
