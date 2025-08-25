@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { entities } from './database/entities';
 import configuration from './config/configuration';
 
 @Module({
@@ -25,9 +26,9 @@ import configuration from './config/configuration';
         username: configService.get<string>('config.database.username'),
         password: configService.get<string>('config.database.password'),
         database: configService.get<string>('config.database.name'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        synchronize: configService.get<boolean>('config.database.synchronize'),
-        logging: configService.get<boolean>('config.database.logging'),
+        entities,
+        synchronize: configService.get<boolean>('config.database.synchronize') || true,
+        logging: configService.get<boolean>('config.database.logging') || false,
         autoLoadEntities: true,
       }),
       inject: [ConfigService],

@@ -14,6 +14,8 @@ export default registerAs('config', () => ({
     username: process.env.DATABASE_USERNAME || 'quest_user',
     password: process.env.DATABASE_PASSWORD || 'quest_password',
     name: process.env.DATABASE_NAME || 'quest_db',
+    synchronize: process.env.DATABASE_SYNCHRONIZE === 'true',
+    logging: process.env.DATABASE_LOGGING === 'true',
   },
 
   // MongoDB Configuration

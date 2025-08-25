@@ -17,7 +17,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration:generate": "npm run typeorm -- migration:generate -d src/config/data-source.ts",
+    "migration:run": "npm run typeorm -- migration:run -d src/config/data-source.ts",
+    "migration:revert": "npm run typeorm -- migration:revert -d src/config/data-source.ts",
+    "migration:create": "npm run typeorm -- migration:create src/database/migrations/migration",
+    "seed": "ts-node src/database/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -26,6 +32,7 @@
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
+    "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "mongoose": "^8.18.0",
@@ -40,6 +47,7 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.7",
