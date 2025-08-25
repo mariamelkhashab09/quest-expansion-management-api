@@ -75,6 +75,12 @@ import configuration from './config/configuration';
            provide: APP_INTERCEPTOR,
            useClass: ClassSerializerInterceptor,
          },
+
+         // Global JWT Guard - Protects all routes by default
+         {
+           provide: APP_GUARD,
+           useClass: JwtGuard,
+         },
        ],
      })
 export class AppModule {}
