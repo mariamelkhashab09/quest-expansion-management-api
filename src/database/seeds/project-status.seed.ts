@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { ProjectStatus } from '../entities/project-status.entity';
+import { ProjectStatus } from '../entities';
 
 export class ProjectStatusSeed {
   public async run(dataSource: DataSource): Promise<void> {

@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Role } from '../entities/role.entity';
+import { Role } from '../entities';
 
 export class RoleSeed {
   public async run(dataSource: DataSource): Promise<void> {

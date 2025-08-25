@@ -19,3 +19,13 @@ export const entities = [
   Vendor,
   Project,
 ];
+
+// Export individual entities
+export { Role } from './role.entity';
+export { User } from './user.entity';
+export { Client } from './client.entity';
+export { ProjectStatus } from './project-status.entity';
+export { Country } from './country.entity';
+export { Service } from './service.entity';
+export { Vendor } from './vendor.entity';
+export { Project } from './project.entity';

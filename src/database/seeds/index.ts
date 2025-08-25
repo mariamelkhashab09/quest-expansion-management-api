@@ -7,7 +7,7 @@ import { ServiceSeed } from './service.seed';
 
 export class DatabaseSeeder {
   public async run(dataSource: DataSource): Promise<void> {
-    console.log('🌱 Starting database seeding...');
+          console.log('Starting database seeding...');
 
     try {
       // Run seeds in order (lookup tables first, then users)
@@ -17,9 +17,9 @@ export class DatabaseSeeder {
       await new ServiceSeed().run(dataSource);
       await new UserSeed().run(dataSource);
 
-      console.log('✅ Database seeding completed successfully!');
+      console.log('Database seeding completed successfully!');
     } catch (error) {
-      console.error('❌ Database seeding failed:', error);
+      console.error('Database seeding failed:', error);
       throw error;
     }
   }

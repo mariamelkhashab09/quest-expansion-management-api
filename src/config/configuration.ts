@@ -21,5 +21,12 @@ export default registerAs('config', () => ({
   // MongoDB Configuration
   mongodb: {
     uri: process.env.MONGODB_URI || 'mongodb://localhost:27017/quest_mongo',
+    database: process.env.MONGODB_DATABASE || 'quest_expansion_mongo',
+  },
+
+  // JWT Configuration
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    expiresIn: process.env.JWT_EXPIRES_IN || '1h',
   },
 }));

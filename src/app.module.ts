@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD, APP_PIPE, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { entities } from './database/entities';
+import { AuthModule, JwtGuard } from './auth';
 import configuration from './config/configuration';
 
 @Module({
@@ -40,10 +44,33 @@ import configuration from './config/configuration';
       useFactory: (configService: ConfigService) => ({
         uri: configService.get<string>('config.mongodb.uri'),
       }),
-      inject: [ConfigService],
-    }),
-  ],
-  controllers: [AppController],
-  providers: [AppService],
-})
+                 inject: [ConfigService],
+         }),
+
+         // Auth Module
+         AuthModule,
+       ],
+       controllers: [AppController],
+       providers: [
+         AppService,
+         // Global Validation Pipe - Validates all DTOs automatically
+         {
+           provide: APP_PIPE,
+           useValue: new ValidationPipe({
+             whitelist: true, // Strip unknown properties
+             forbidNonWhitelisted: true, // Throw error on unknown properties
+             transform: true, // Auto-transform payloads to DTO instances
+             transformOptions: {
+               enableImplicitConversion: true, // Auto-convert types
+             },
+           }),
+         },
+         
+         // Global Class Serializer - Handles @Exclude() decorators
+         {
+           provide: APP_INTERCEPTOR,
+           useClass: ClassSerializerInterceptor,
+         },
+       ],
+     })
 export class AppModule {}

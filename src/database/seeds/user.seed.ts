@@ -1,7 +1,6 @@
 import { DataSource } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { User } from '../entities/user.entity';
-import { Role } from '../entities/role.entity';
+import { User, Role } from '../entities';
 import { saltRounds } from '../../config/constants';
 
 export class UserSeed {

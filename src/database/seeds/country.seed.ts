@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Country } from '../entities/country.entity';
+import { Country } from '../entities';
 
 export class CountrySeed {
   public async run(dataSource: DataSource): Promise<void> {

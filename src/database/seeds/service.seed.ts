@@ -1,5 +1,5 @@
 import { DataSource } from 'typeorm';
-import { Service } from '../entities/service.entity';
+import { Service } from '../entities';
 
 export class ServiceSeed {
   public async run(dataSource: DataSource): Promise<void> {
