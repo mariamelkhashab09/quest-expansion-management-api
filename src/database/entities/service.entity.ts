@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany } from 'typeorm';
 import { Vendor } from './vendor.entity';
+import { Project } from './project.entity';
 
 @Entity('service')
 export class Service {
@@ -11,6 +12,9 @@ export class Service {
 
   @ManyToMany(() => Vendor, (vendor) => vendor.services)
   vendors: Vendor[];
+
+  @ManyToMany(() => Project, (project) => project.services)
+  projects: Project[];
 
   @CreateDateColumn()
   createdAt: Date;

@@ -6,6 +6,7 @@ import { ProjectStatus } from './project-status.entity';
 import { Country } from './country.entity';
 import { Service } from './service.entity';
 import { Vendor } from './vendor.entity';
+import { Project } from './project.entity';
 
 // Array of all entities for easy import in modules
 export const entities = [
@@ -15,5 +16,6 @@ export const entities = [
   ProjectStatus,
   Country,
   Service,
-  Vendor
+  Vendor,
+  Project,
 ];

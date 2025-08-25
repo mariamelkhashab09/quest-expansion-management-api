@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToMany, OneToMany } from 'typeorm';
 import { Vendor } from './vendor.entity';
+import { Project } from './project.entity';
 
 @Entity('country')
 export class Country {
@@ -11,6 +12,9 @@ export class Country {
 
   @ManyToMany(() => Vendor, (vendor) => vendor.countries)
   vendors: Vendor[];
+
+  @OneToMany(() => Project, (project) => project.country)
+  projects: Project[];
 
   @CreateDateColumn()
   createdAt: Date;

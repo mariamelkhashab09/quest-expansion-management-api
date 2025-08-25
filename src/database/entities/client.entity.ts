@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn, OneToMany } from 'typeorm';
 import { User } from './user.entity';
+import { Project } from './project.entity';
 
 @Entity('clients')
 export class Client {
@@ -18,6 +19,9 @@ export class Client {
 
   @Column({ type: 'varchar', length: 255, name: 'contact_email' })
   contactEmail: string;
+
+  @OneToMany(() => Project, (project) => project.client)
+  projects: Project[];
 
   @CreateDateColumn()
   createdAt: Date;
