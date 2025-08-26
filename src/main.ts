@@ -10,6 +10,7 @@ function setupSwagger(app: INestApplication): void {
     .setVersion('1.0')
     .addTag('auth', 'Authentication endpoints')
     .addTag('projects', 'Project management endpoints')
+    .addTag('vendors', 'Vendor management endpoints (Admin only)')
     .addBearerAuth(
       {
         type: 'http',
