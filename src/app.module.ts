@@ -10,6 +10,7 @@ import { AppService } from './app.service';
 import { entities } from './database/entities';
 import { AuthModule, JwtGuard } from './auth';
 import { ProjectsModule } from './projects/projects.module';
+import { VendorsModule } from './vendors/vendors.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -53,6 +54,9 @@ import configuration from './config/configuration';
 
     // Projects Module
     ProjectsModule,
+
+    // Vendors Module
+    VendorsModule,
   ],
        controllers: [AppController],
        providers: [
