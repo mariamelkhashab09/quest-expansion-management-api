@@ -10,12 +10,21 @@ import {
   Query,
   ParseIntPipe,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ProjectsService } from './services';
 import { CreateProjectDto, UpdateProjectDto, ProjectQueryDto } from './dto';
 import { RolesGuard } from '../auth/guards';
 import { Roles, CurrentUser } from '../auth/decorators';
+import { 
+  ApiCreateProject, 
+  ApiGetProjects, 
+  ApiGetProject, 
+  ApiUpdateProject, 
+  ApiDeleteProject 
+} from './decorators';
 import { User, Project } from '../database/entities';
 
+@ApiTags('projects')
 @Controller('projects')
 @UseGuards(RolesGuard)
 @Roles('client')
@@ -23,6 +32,7 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Post()
+  @ApiCreateProject()
   async create(
     @CurrentUser() user: User,
     @Body() createProjectDto: CreateProjectDto,
@@ -31,6 +41,7 @@ export class ProjectsController {
   }
 
   @Get()
+  @ApiGetProjects()
   async findAll(
     @CurrentUser() user: User,
     @Query() query: ProjectQueryDto,
@@ -46,6 +57,7 @@ export class ProjectsController {
   }
 
   @Get(':id')
+  @ApiGetProject()
   async findOne(
     @CurrentUser() user: User,
     @Param('id', ParseIntPipe) id: number,
@@ -54,6 +66,7 @@ export class ProjectsController {
   }
 
   @Patch(':id')
+  @ApiUpdateProject()
   async update(
     @CurrentUser() user: User,
     @Param('id', ParseIntPipe) id: number,
@@ -63,6 +76,7 @@ export class ProjectsController {
   }
 
   @Delete(':id')
+  @ApiDeleteProject()
   async remove(
     @CurrentUser() user: User,
     @Param('id', ParseIntPipe) id: number,
